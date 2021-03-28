@@ -10,6 +10,7 @@ export function useCodeMirror(props: ReactCodeMirrorProps) {
     (instance: CodeMirror.Editor) => {
       if (props.onChange) props.onChange(instance.getValue());
     },
+    // eslint-disable-next-line
     [props.onChange]
   );
 
@@ -19,7 +20,7 @@ export function useCodeMirror(props: ReactCodeMirrorProps) {
     }
   }, [props]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     editor.current = CodeMirror(rootRef.current!, {
       value: props.value,
       inputStyle: props.inputStyle ?? "contenteditable",
@@ -30,6 +31,7 @@ export function useCodeMirror(props: ReactCodeMirrorProps) {
 
     editor.current.refresh();
     editor.current.focus();
+    // eslint-disable-next-line
   }, []);
 
   return {
