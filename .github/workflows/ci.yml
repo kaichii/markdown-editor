@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  schedule:
+    - cron: "0 5 * * *" # everyday at 5am
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Github Status
+        uses: crazy-max/ghaction-github-status@v2
+        with:
+          pages_threshold: partial-outage
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy to Github Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
